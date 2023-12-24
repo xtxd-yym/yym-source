@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 
+
 // https://vitejs.dev/config/
 export default defineConfig({
   // 静态资源引用路径，默认为"/"
@@ -37,4 +38,17 @@ export default defineConfig({
     },
   },
   plugins: [react()],
-});
+  css: {
+    preprocessorOptions: {
+      less: {
+        // modifyVars: {
+        //   hack: `true; @import (reference) "${path.resolve('src/constant/styles/prefix.less')}";` //你的样式路径
+        // },
+        javascriptEnabled: true,
+        // additionalData: '@import "./src/constant/styles/prefix.less";'
+      },
+    },
+  }
+})
+
+

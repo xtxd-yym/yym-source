@@ -10,7 +10,7 @@ import {lazyLoad, AuthComp} from "@/util/routeFunc";
 const MainRouters = () => {
   return (
     <Routes>
-      <Route path="/" element={AuthComp(lazyLoad(Layout), false)}>
+      <Route path="/" element={AuthComp(lazyLoad(Layout), true)}>
         <Route path="/" element={<Navigate to="/home" />}></Route>
         <Route path="/home" element={lazyLoad(Home)}></Route>
       </Route>
