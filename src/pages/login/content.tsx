@@ -25,9 +25,19 @@ const Login = memo(() => {
   const submit = useCallback(() => {
     form.validateFields().then(
       () => {
-        const params = {};
-        sourceLogin(params).then(() => {
-          navigate('/home');
+        const params = {
+          usernameType,
+          username: form.getFieldsValue()?.username || "",
+          password: form.getFieldsValue()?.password || "",
+        };
+        sourceLogin(params).then((res: any = {}) => {
+          if (res.status === 200 && res.data) {
+            navigate('/home');
+          } else {
+            Modal.error({
+              title: '登陆失败， 用户名或密码错误！'
+            })
+          }
         }).catch(() => {
           Modal.error({
             title: '登陆失败！'

@@ -27,7 +27,7 @@ export default defineConfig({
       // 以下示例表示：请求URL中含有"/api"，则反向代理到http://localhost
       // 例如: http://localhost:3000/api/login -> http://localhost/api/login
       '/api': {
-        target: 'http://localhost/',
+        target: 'http://localhost:3001/',
         changeOrigin: true,
       },
     },
