@@ -1,6 +1,6 @@
 import React from 'react';
 import { Spin } from 'antd';
-import {Navigate} from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 export const lazyLoad = (Comp: any) => {
   return (
     <React.Suspense
@@ -20,15 +20,14 @@ export const lazyLoad = (Comp: any) => {
   );
 };
 
-export const AuthComp = (props: any, isLogin: boolean = false) => {
-    const { comp:Comp } = props;
-  
-      // 如果登录就放行
-    if (isLogin) return Comp;
-  
-      // 如果没有登录就重定向到Login登录页
-    return <Navigate to="/login" replace/>;
-  };
+export const AuthComp = (props: any) => {
+  const { comp: Comp } = props;
 
-
-
+  // 如果登录就放行
+  if (true) {
+    return Comp;
+  } else {
+    // 如果没有登录就重定向到Login登录页
+    return <Navigate to="/login" replace />;
+  }
+};
