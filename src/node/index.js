@@ -9,19 +9,19 @@ const jsonParser = bodyParser.json();
 const urlencodedParser = bodyParser.urlencoded({ extended: true });
 
 app.post('/api/login', jsonParser, (req, res) => {
-  const {
-    usernameType = 'username',
-    username = '',
-    password = '',
-  } = req.body || {};
+  const { usernameType = '', username = '', password = '' } = req.body || {};
   fs.readFile(
     path.join('./', 'src', 'node', 'assert', 'data.txt'),
     'utf8',
     (err, data) => {
       if (err) throw err;
-      
+
       const userData = getUrlParams(data);
-      if (userData.username === username && userData.password === password) {
+      if (
+        usernameType === 'username' &&
+        userData.username === username &&
+        userData.password === password
+      ) {
         res.send(true);
       } else {
         res.send(false);

@@ -12,7 +12,7 @@ interface FieldType {}
 const Login = memo(() => {
   const prefix = SourceLoginPrefix;
   const [form] = Form.useForm();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   //账号类型单选check框值
   const [usernameType, setUsernameType] = useState<string>('username');
@@ -27,26 +27,28 @@ const Login = memo(() => {
       () => {
         const params = {
           usernameType,
-          username: form.getFieldsValue()?.username || "",
-          password: form.getFieldsValue()?.password || "",
+          username: form.getFieldsValue()?.username || '',
+          password: form.getFieldsValue()?.password || '',
         };
-        sourceLogin(params).then((res: any = {}) => {
-          if (res.status === 200 && res.data) {
-            navigate('/home');
-          } else {
-            Modal.error({
-              title: '登陆失败， 用户名或密码错误！'
-            })
-          }
-        }).catch(() => {
-          Modal.error({
-            title: '登陆失败！'
+        sourceLogin(params)
+          .then((res: any = {}) => {
+            if (res.status === 200 && res.data) {
+              navigate('/home');
+            } else {
+              Modal.error({
+                title: '登陆失败， 用户名或密码错误！',
+              });
+            }
           })
-        });
+          .catch(() => {
+            Modal.error({
+              title: '登陆失败！',
+            });
+          });
       },
       () => {}
     );
-  }, []);
+  }, [usernameType]);
 
   return (
     <div className={prefix}>
@@ -68,20 +70,16 @@ const Login = memo(() => {
         <div className={`${prefix}-container-form`}>
           <Form
             name="login"
-            labelCol={{ span: 8 }}
-            wrapperCol={{ span: 16 }}
+            labelCol={{ span: 12 }}
+            wrapperCol={{ span: 12 }}
             style={{ maxWidth: 600 }}
             initialValues={{ remember: true }}
             autoComplete="off"
             form={form}
+            labelAlign="left"
           >
             <Form.Item<FieldType>
-              label="Username"
-              labelCol={{ span: 0 }}
-              name="username"
-              rules={[{ required: true, message: '此项必填' }]}
-            >
-              <div>
+              label={
                 <Radio.Group
                   onChange={onUsernameTypeChange}
                   value={usernameType}
@@ -90,11 +88,16 @@ const Login = memo(() => {
                   <Radio value={'UID'}>UID</Radio>
                   <Radio value={'Email'}>Email</Radio>
                 </Radio.Group>
+              }
+              name="username"
+              rules={[{ required: true, message: '此项必填' }]}
+            >
+              <div className={`${prefix}-container-form-user`}>
                 <Input />
               </div>
             </Form.Item>
             <Form.Item<FieldType>
-              label="Password"
+              label="密码"
               name="password"
               rules={[{ required: true, message: '此项必填' }]}
             >
@@ -107,7 +110,7 @@ const Login = memo(() => {
             >
               <Checkbox>记住我的选择</Checkbox>
             </Form.Item> */}
-            <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+            <Form.Item wrapperCol={{ offset: 12, span: 12 }}>
               <Button type="primary" onClick={submit}>
                 Submit
               </Button>
