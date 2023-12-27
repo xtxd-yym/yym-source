@@ -1,11 +1,10 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useContext, memo } from 'react';
 import { Button, Input, Form, Radio, RadioChangeEvent, Modal } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import './style/index.less';
 import { SourceLoginPrefix } from '@/constant/styles/index';
 import { sourceLogin } from '@/api/content';
-
-import { memo } from 'react';
+import {AuthContext} from "@/router/authcomp";
 
 interface FieldType {}
 
@@ -13,6 +12,7 @@ const Login = memo(() => {
   const prefix = SourceLoginPrefix;
   const [form] = Form.useForm();
   const navigate = useNavigate();
+  const auth = useContext(AuthContext);
 
   //账号类型单选check框值
   const [usernameType, setUsernameType] = useState<string>('username');
@@ -33,6 +33,8 @@ const Login = memo(() => {
         sourceLogin(params)
           .then((res: any = {}) => {
             if (res.status === 200 && res.data) {
+              localStorage.setItem("isLogin", "true");
+              auth?.changeUser(true);
               navigate('/home');
             } else {
               Modal.error({
@@ -112,7 +114,7 @@ const Login = memo(() => {
             </Form.Item> */}
             <Form.Item wrapperCol={{ offset: 12, span: 12 }}>
               <Button type="primary" onClick={submit}>
-                Submit
+                登录
               </Button>
             </Form.Item>
           </Form>
