@@ -9,7 +9,8 @@ const Home = () => {
   const navigate = useNavigate();
   const loginOut = useCallback(() => {
     localStorage.setItem("isLogin", "false");
-    auth?.changeUser(false);
+    localStorage.removeItem("username");
+    auth?.changeIsLogin(false);
     navigate('/login');
   }, []);
 

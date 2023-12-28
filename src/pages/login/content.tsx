@@ -34,7 +34,9 @@ const Login = memo(() => {
           .then((res: any = {}) => {
             if (res.status === 200 && res.data) {
               localStorage.setItem("isLogin", "true");
-              auth?.changeUser(true);
+              localStorage.setItem("username", res.data?.username || "");
+              auth?.changeIsLogin(!!res.data?.isLogin);
+              !!res.data?.isLogin && auth?.changeUsername(res.data?.username || "");
               navigate('/home');
             } else {
               Modal.error({
