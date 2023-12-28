@@ -1,3 +1,4 @@
+
 import { memo, useCallback, useEffect, useState, useContext } from 'react';
 import { DownOutlined, UpOutlined, MailTwoTone } from '@ant-design/icons';
 import './style/index.less';
@@ -20,6 +21,7 @@ const Layout = memo(() => {
   const prefix = SourceLayoutPrefix;
   const headerPrefix = SourceHeaderPrefix;
   const containerPrefix = SourceContainerPrefix;
+
   const auth = useContext(AuthContext);
   //当前登录的用户名称
   const [username, setUsername] = useState<string>(auth?.username || '');
@@ -67,15 +69,18 @@ const Layout = memo(() => {
     return (
       <div className={`${headerPrefix}-navigation`}>
         <div className={`${headerPrefix}-navigation-left`}>
+
           <div className={`${headerPrefix}-navigation-left-shrink`} onClick={onShrinkClick}>
             {profileHide ? <DownOutlined /> : <UpOutlined />}
           </div>
           <div className={`${headerPrefix}-navigation-left-account`}>{username}</div>
+
           <div className={`${headerPrefix}-navigation-left-email`}>
             <MailTwoTone />
           </div>
           <div className={`${headerPrefix}-navigation-left-setting`}>设置</div>
           <div className={`${headerPrefix}-navigation-left-loginout`}>退出</div>
+
         </div>
         <div className={`${headerPrefix}-navigation-right`}>
           <div
@@ -151,12 +156,15 @@ const Layout = memo(() => {
     );
   }, []);
 
+
   return (
     <div className={prefix}>
       <div className={headerPrefix}>
         {navigationRender()}
+
         {!profileHide && prefileRender()}
         {advertiseRender()}
+
       </div>
       <div className={containerPrefix}>
         <Outlet></Outlet>
