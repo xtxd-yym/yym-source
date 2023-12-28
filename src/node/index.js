@@ -22,9 +22,9 @@ app.post('/api/login', jsonParser, (req, res) => {
         userData.username === username &&
         userData.password === password
       ) {
-        res.send(true);
+        res.send({isLogin: true, username: userData.username});
       } else {
-        res.send(false);
+        res.send({isLogin: false});
       }
     }
   );

@@ -27,7 +27,7 @@ export const AuthComp = (props: any) => {
   const auth = useContext(AuthContext);
 
   // 如果登录就放行
-  if (auth?.user) {
+  if (auth?.isLogin) {
     return children;
   } else {
     // 如果没有登录就重定向到Login登录页
