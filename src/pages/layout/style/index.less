@@ -71,6 +71,82 @@
       height: 60px;
       background-color: #e5e5e5;
       padding: 8px;
+      display: flex;
+      justify-content: space-between;
+      &-left {
+        display: flex;
+        align-items: center;
+        &-avatar {
+          width: 40px;
+          height: 40px;
+          margin-right: 8px;
+          cursor: pointer;
+        } 
+        &-container {
+          color: #555555;
+          flex: 1;
+          &-top {
+            display: flex;
+            margin-bottom: 2px;
+            &-info {
+              margin-right: 6px;
+            }
+            &-theme {
+              margin-right: 6px;
+              color: #bbbbbb;
+              cursor: pointer;
+            }
+            &-reply {
+              margin-right: 6px;
+              color: #bbbbbb;
+              cursor: pointer;
+            }
+            &-add {
+              cursor: pointer;
+              
+            }
+          }
+          &-bottom {
+            display: flex;
+            &-pre {
+              margin-right: 6px;
+            }
+            &-mid {
+              margin-right: 6px;
+              cursor: pointer;
+              color: #bbbbbb;
+            }
+          }
+        }
+      }
+
+      &-right {
+        display: flex;
+        align-items: center;
+        &-title {
+          margin-right: 16px;
+        }
+        &-container {
+          display: flex;
+          flex-wrap: wrap;
+          &-module {
+            display: flex;
+            align-items: center;
+            margin-right: 6px;
+            &-icon {
+              svg {
+                color: green;
+              }
+            }
+            &-name {
+              cursor: pointer;
+            }
+            &-name:hover {
+              color: #555555;
+            }
+          }
+        }
+      }
     }
     &-advertise {
       flex: 6;
@@ -96,5 +172,13 @@
   }
   .source-container {
     flex: 5;
+  }
+}
+
+.source-header {
+  &-profile-left-container-top-add-popup {
+    &-first,&-second,&-third {
+      cursor: pointer;
+    }
   }
 }
