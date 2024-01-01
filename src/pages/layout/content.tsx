@@ -1,6 +1,6 @@
-
 import { memo, useCallback, useEffect, useState, useContext } from 'react';
-import { DownOutlined, UpOutlined, MailTwoTone } from '@ant-design/icons';
+import { Popover } from 'antd';
+import { DownOutlined, UpOutlined, MailTwoTone, PlusOutlined, EditFilled, CaretRightFilled } from '@ant-design/icons';
 import './style/index.less';
 import { Outlet } from 'react-router-dom';
 import { SourceLayoutPrefix, SourceHeaderPrefix, SourceContainerPrefix } from '@/constant/styles/index';
@@ -8,6 +8,7 @@ import { getUserConfig } from '@/api/content';
 import { AuthContext } from '@/router/authcomp';
 import leftAdvertise from '@/assert/image/masha5-1.gif';
 import rightAdvertise from '@/assert/image/masha5-2.png';
+import defaultAvatar from '@/assert/image/a3.gif';
 import { Interface } from 'readline';
 
 interface UserInfoType {
@@ -15,6 +16,17 @@ interface UserInfoType {
   level: number;
   post: number;
   signature: string;
+}
+
+interface WebsiteInfoType {
+  id: string;
+  title: string;
+  value: string;
+}
+
+interface HotModuleType {
+  name: string;
+  link: string;
 }
 
 const Layout = memo(() => {
@@ -31,15 +43,36 @@ const Layout = memo(() => {
   const [tabChoice, setTabChoice] = useState<string>('discuss');
   //当前用户信息集合
   const [userInfo, setUserInfo] = useState<UserInfoType>({
-    avatar: '',//用户头像
-    level: 1,//用户等级
-    post: 0,//用户帖子数
-    signature: '',//用户签名
+    avatar: defaultAvatar, //用户头像
+    level: 1, //用户等级
+    post: 0, //用户帖子数
+    signature: '', //用户签名
   });
+  //热门板块导航合集
+  const [hotModule, setHotModule] = useState<HotModuleType[]>([]);
+  //当前网站信息集合
+  const [websiteInfo, setWebsiteInfo] = useState<WebsiteInfoType[]>([]);
 
   useEffect(() => {
     const params = {};
-    getUserConfig(params).then((res) => {});
+    getUserConfig(params).then((res) => {
+      if (res?.status === 200) {
+        const { userinfo = {}, websietInfo = [], hotModule = [] } = res.data || {};
+        setUsername(userinfo.username || '');
+        setUserInfo({
+          avatar: userinfo.avatar || '',
+          level: userinfo.level,
+          post: userinfo.post,
+          signature: userinfo.signature || '',
+        });
+        setWebsiteInfo(websietInfo);
+        setHotModule(hotModule);
+      } else {
+
+      }
+    }).catch(err => {
+      console.error(err);
+    });
   }, []);
 
   //个人信息栏收缩按钮点击回调
@@ -69,7 +102,6 @@ const Layout = memo(() => {
     return (
       <div className={`${headerPrefix}-navigation`}>
         <div className={`${headerPrefix}-navigation-left`}>
-
           <div className={`${headerPrefix}-navigation-left-shrink`} onClick={onShrinkClick}>
             {profileHide ? <DownOutlined /> : <UpOutlined />}
           </div>
@@ -80,7 +112,6 @@ const Layout = memo(() => {
           </div>
           <div className={`${headerPrefix}-navigation-left-setting`}>设置</div>
           <div className={`${headerPrefix}-navigation-left-loginout`}>退出</div>
-
         </div>
         <div className={`${headerPrefix}-navigation-right`}>
           <div
@@ -114,7 +145,7 @@ const Layout = memo(() => {
 
   //个人信息渲染
   const prefileRender = useCallback(() => {
-    const {avatar, level, post, signature} = userInfo;
+    const { avatar, level, post, signature } = userInfo;
     return (
       <div className={`${headerPrefix}-profile`}>
         <div className={`${headerPrefix}-profile-left`}>
@@ -123,24 +154,63 @@ const Layout = memo(() => {
           </div>
           <div className={`${headerPrefix}-profile-left-container`}>
             <div className={`${headerPrefix}-profile-left-container-top`}>
-              <div className={`${headerPrefix}-profile-left-container-top-info`}></div>
-              <div className={`${headerPrefix}-profile-left-container-top-theme`}></div>
-              <div className={`${headerPrefix}-profile-left-container-top-reply`}></div>
-              <div className={`${headerPrefix}-profile-left-container-top-add`}></div>
+              <div
+                className={`${headerPrefix}-profile-left-container-top-info`}
+              >{`等级:Lv.${level}, 帖子:${post}`}</div>
+              <div className={`${headerPrefix}-profile-left-container-top-theme`}>我的主题</div>
+              <div className={`${headerPrefix}-profile-left-container-top-reply`}>我的回复</div>
+              <div className={`${headerPrefix}-profile-left-container-top-add`}>
+                <Popover
+                  title={''}
+                  content={
+                    <div className={`${headerPrefix}-profile-left-container-top-add-popup`}>
+                      <div className={`${headerPrefix}-profile-left-container-top-add-popup-first`}>个人首页</div>
+                      <div className={`${headerPrefix}-profile-left-container-top-add-popup-second`}>我的收藏</div>
+                      <div className={`${headerPrefix}-profile-left-container-top-add-popup-third`}>好友近况</div>
+                    </div>
+                  }
+                >
+                  <PlusOutlined />
+                </Popover>
+              </div>
             </div>
             <div className={`${headerPrefix}-profile-left-container-bottom`}>
-              <div className={`${headerPrefix}-profile-left-container-bottom`}>
-                <div className={`${headerPrefix}-profile-left-container-bottom-pre`}></div>
-                <div className={`${headerPrefix}-profile-left-container-bottom-mid`}></div>
-                <div className={`${headerPrefix}-profile-left-container-bottom-tail`}></div>
+              <div className={`${headerPrefix}-profile-left-container-bottom-pre`}>
+                {signature || '您还没有设置个性签名'}
+              </div>
+              <div className={`${headerPrefix}-profile-left-container-bottom-mid`} title={"编辑"}>
+                <EditFilled />
               </div>
             </div>
           </div>
         </div>
-        <div className={`${headerPrefix}-profile-right`}></div>
+        <div className={`${headerPrefix}-profile-right`}>
+          <div className={`${headerPrefix}-profile-right-title`}>热门板块:</div>
+          {tabChoice !== 'discuss' ? (
+            <div className={`${headerPrefix}-profile-right-container`}>
+              {hotModule.map((item) => (
+                <div className={`${headerPrefix}-profile-right-container-module`}>
+                  <div className={`${headerPrefix}-profile-right-container-module-icon`}>
+                    <CaretRightFilled />
+                  </div>
+                  <div className={`${headerPrefix}-profile-right-container-module-name`}>{item?.name || ''}</div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className={`${headerPrefix}-profile-right-container`}>
+              {websiteInfo.map((item) => (
+                <div className={`${headerPrefix}-profile-right-container-website ${item?.id || ''}`}>
+                  <div className={`${headerPrefix}-profile-right-container-websiteInfo-title`}>{item?.title || ''}</div>
+                  <div className={`${headerPrefix}-profile-right-container-websiteInfo-value`}>{item?.value || ''}</div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     );
-  }, [userInfo]);
+  }, [userInfo, hotModule, websiteInfo, tabChoice]);
 
   //广告区域渲染
   const advertiseRender = useCallback(() => {
@@ -156,7 +226,6 @@ const Layout = memo(() => {
     );
   }, []);
 
-
   return (
     <div className={prefix}>
       <div className={headerPrefix}>
@@ -164,7 +233,6 @@ const Layout = memo(() => {
 
         {!profileHide && prefileRender()}
         {advertiseRender()}
-
       </div>
       <div className={containerPrefix}>
         <Outlet></Outlet>
