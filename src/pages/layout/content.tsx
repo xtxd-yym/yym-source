@@ -2,14 +2,13 @@ import { memo, useCallback, useEffect, useState, useContext } from 'react';
 import { Popover } from 'antd';
 import { DownOutlined, UpOutlined, MailTwoTone, PlusOutlined, EditFilled, CaretRightFilled } from '@ant-design/icons';
 import './style/index.less';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { SourceLayoutPrefix, SourceHeaderPrefix, SourceContainerPrefix } from '@/constant/styles/index';
 import { getUserConfig } from '@/api/content';
 import { AuthContext } from '@/router/authcomp';
 import leftAdvertise from '@/assert/image/masha5-1.gif';
 import rightAdvertise from '@/assert/image/masha5-2.png';
 import defaultAvatar from '@/assert/image/a3.gif';
-import { Interface } from 'readline';
 
 interface UserInfoType {
   avatar: string;
@@ -33,6 +32,7 @@ const Layout = memo(() => {
   const prefix = SourceLayoutPrefix;
   const headerPrefix = SourceHeaderPrefix;
   const containerPrefix = SourceContainerPrefix;
+  const navigate = useNavigate();
 
   const auth = useContext(AuthContext);
   //当前登录的用户名称
@@ -55,24 +55,33 @@ const Layout = memo(() => {
 
   useEffect(() => {
     const params = {};
-    getUserConfig(params).then((res) => {
-      if (res?.status === 200) {
-        const { userinfo = {}, websietInfo = [], hotModule = [] } = res.data || {};
-        setUsername(userinfo.username || '');
-        setUserInfo({
-          avatar: userinfo.avatar || '',
-          level: userinfo.level,
-          post: userinfo.post,
-          signature: userinfo.signature || '',
-        });
-        setWebsiteInfo(websietInfo);
-        setHotModule(hotModule);
-      } else {
+    getUserConfig(params)
+      .then((res) => {
+        if (res?.status === 200) {
+          const { userinfo = {}, websietInfo = [], hotModule = [] } = res.data || {};
+          setUsername(userinfo.username || '');
+          setUserInfo({
+            avatar: userinfo.avatar || '',
+            level: userinfo.level,
+            post: userinfo.post,
+            signature: userinfo.signature || '',
+          });
+          setWebsiteInfo(websietInfo);
+          setHotModule(hotModule);
+        } else {
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
 
-      }
-    }).catch(err => {
-      console.error(err);
-    });
+  //退出按钮点击回调
+  const loginOut = useCallback(() => {
+    localStorage.setItem("isLogin", "false");
+    localStorage.removeItem("username");
+    auth?.changeIsLogin(false);
+    navigate('/login');
   }, []);
 
   //个人信息栏收缩按钮点击回调
@@ -111,7 +120,7 @@ const Layout = memo(() => {
             <MailTwoTone />
           </div>
           <div className={`${headerPrefix}-navigation-left-setting`}>设置</div>
-          <div className={`${headerPrefix}-navigation-left-loginout`}>退出</div>
+          <div className={`${headerPrefix}-navigation-left-loginout`} onClick={loginOut}>退出</div>
         </div>
         <div className={`${headerPrefix}-navigation-right`}>
           <div
@@ -178,25 +187,27 @@ const Layout = memo(() => {
               <div className={`${headerPrefix}-profile-left-container-bottom-pre`}>
                 {signature || '您还没有设置个性签名'}
               </div>
-              <div className={`${headerPrefix}-profile-left-container-bottom-mid`} title={"编辑"}>
+              <div className={`${headerPrefix}-profile-left-container-bottom-mid`} title={'编辑'}>
                 <EditFilled />
               </div>
             </div>
           </div>
         </div>
         <div className={`${headerPrefix}-profile-right`}>
-          <div className={`${headerPrefix}-profile-right-title`}>热门板块:</div>
           {tabChoice !== 'discuss' ? (
-            <div className={`${headerPrefix}-profile-right-container`}>
-              {hotModule.map((item) => (
-                <div className={`${headerPrefix}-profile-right-container-module`}>
-                  <div className={`${headerPrefix}-profile-right-container-module-icon`}>
-                    <CaretRightFilled />
+            <>
+              <div className={`${headerPrefix}-profile-right-title`}>热门板块:</div>
+              <div className={`${headerPrefix}-profile-right-container`}>
+                {hotModule.map((item) => (
+                  <div className={`${headerPrefix}-profile-right-container-module`}>
+                    <div className={`${headerPrefix}-profile-right-container-module-icon`}>
+                      <CaretRightFilled />
+                    </div>
+                    <div className={`${headerPrefix}-profile-right-container-module-name`}>{item?.name || ''}</div>
                   </div>
-                  <div className={`${headerPrefix}-profile-right-container-module-name`}>{item?.name || ''}</div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            </>
           ) : (
             <div className={`${headerPrefix}-profile-right-container`}>
               {websiteInfo.map((item) => (
@@ -230,7 +241,6 @@ const Layout = memo(() => {
     <div className={prefix}>
       <div className={headerPrefix}>
         {navigationRender()}
-
         {!profileHide && prefileRender()}
         {advertiseRender()}
       </div>

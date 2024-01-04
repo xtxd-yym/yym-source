@@ -123,12 +123,31 @@
       &-right {
         display: flex;
         align-items: center;
+        justify-content: flex-end;
+        max-width: 500px;
         &-title {
           margin-right: 16px;
+          white-space: nowrap;
         }
         &-container {
           display: flex;
           flex-wrap: wrap;
+      
+          &-website {
+            display: flex;
+            padding-right: 5px;
+            margin-right: 5px;
+            border-right: 1px solid #000000;
+          }
+          &-website.rss, &-website.newMember {
+            border: unset;
+          }
+          &-website.mardRead, &-website.newPost, &-website.rss, &-website.newMember {
+            cursor: pointer;
+          }
+          &-website.mardRead:hover, &-website.newPost:hover, &-website.rss:hover, &-website.newMember:hover {
+            color: #BBBBBB;
+          }
           &-module {
             display: flex;
             align-items: center;

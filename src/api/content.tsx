@@ -21,3 +21,13 @@ export const getUserConfig = (params: AnyObject = {}) => {
   })
   return  axios(axiosConfig);
 }
+
+//获取首页new Module数据
+export const getHomeNewModuleData = (params: AnyObject = {}) => {
+  const axiosConfig = getAxiosConfig({
+      method: 'get',
+      url: '/api/getHomeNewModuleData',
+      data: params,
+  })
+  return  axios(axiosConfig);
+}
