@@ -6,3 +6,5 @@ export const SourceLayoutPrefix = `source-layout`;
 export const SourceHeaderPrefix = `source-header`;
 //内容container
 export const SourceContainerPrefix = `source-container`;
+//home本体
+export const SourceHomePrefix = `source-home`;

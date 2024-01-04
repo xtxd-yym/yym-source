@@ -49,3 +49,14 @@ Mock.mock(domain + 'getUserConfig', function () {
   };
   return result;
 });
+
+//模拟首页获取new module data接口
+Mock.mock(domain + 'getHomeNewModuleData', function () {
+  let result = [
+    { title: '最新讨论', listData: ['如果你的真的很大', '有女友,妻子的各位', '斑竹啥时候', '有没有大佬', '绝剑女校'] },
+    { title: '最新回复', listData: ['如果你的真的很大', '有女友,妻子的各位', '斑竹啥时候', '有没有大佬', '绝剑女校'] },
+    { title: '同人音声', listData: ['如果你的真的很大', '有女友,妻子的各位', '斑竹啥时候', '有没有大佬', '绝剑女校'] },
+    { title: '提问求物', listData: ['如果你的真的很大', '有女友,妻子的各位', '斑竹啥时候', '有没有大佬', '绝剑女校'] },
+  ];
+  return result;
+});
