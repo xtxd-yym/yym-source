@@ -198,8 +198,8 @@ const Layout = memo(() => {
             <>
               <div className={`${headerPrefix}-profile-right-title`}>热门板块:</div>
               <div className={`${headerPrefix}-profile-right-container`}>
-                {hotModule.map((item) => (
-                  <div className={`${headerPrefix}-profile-right-container-module`}>
+                {hotModule.map((item, index) => (
+                  <div key={index} className={`${headerPrefix}-profile-right-container-module`}>
                     <div className={`${headerPrefix}-profile-right-container-module-icon`}>
                       <CaretRightFilled />
                     </div>
@@ -210,8 +210,8 @@ const Layout = memo(() => {
             </>
           ) : (
             <div className={`${headerPrefix}-profile-right-container`}>
-              {websiteInfo.map((item) => (
-                <div className={`${headerPrefix}-profile-right-container-website ${item?.id || ''}`}>
+              {websiteInfo.map((item, index) => (
+                <div key={index} className={`${headerPrefix}-profile-right-container-website ${item?.id || ''}`}>
                   <div className={`${headerPrefix}-profile-right-container-websiteInfo-title`}>{item?.title || ''}</div>
                   <div className={`${headerPrefix}-profile-right-container-websiteInfo-value`}>{item?.value || ''}</div>
                 </div>

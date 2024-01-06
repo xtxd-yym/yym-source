@@ -1,8 +1,51 @@
 .source-home {
   &-new {
     display: flex;
+    border: 1px solid #dddddd;
+    margin-bottom: 6px;
     &-part {
       flex: 1;
+      max-width: 25%;
+      &-title {
+        border-bottom: 1px solid #eeeeee;
+        background-color: #e5e5e5;
+        padding: 6px;
+        color: #000000;
+        font-weight: 700;
+      }
+
+      &-list {
+        .ant-list-item {
+          padding: 2px 0;
+          border: unset;
+          height: 20px;
+        }
+
+        &-row {
+          display: flex;
+          align-items: center;
+          padding-left: 6px;
+          max-width: 100%;
+          &-dot {
+            width: 6px;
+            height: 6px;
+            background: #555555;
+            border-radius: 50%;
+            margin-right: 4px;
+          }
+
+          &-text {
+            overflow: hidden;
+            white-space: nowrap;
+            max-width: calc(100% - 10px);
+            text-overflow: ellipsis;
+            cursor: pointer;
+          }
+          &-text:hover{
+            color: #bbbbbb;
+          }
+        }
+      }
     }
   }
 }

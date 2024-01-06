@@ -1,0 +1,38 @@
+.source-table {
+  border: 1px solid #dddddd;
+  &-title {
+    background-color: #e5e5e5;
+    padding: 6px;
+    color: #000000;
+    font-weight: 700;
+    position: relative;
+    &-shrink {
+      position: absolute;
+      right: 5px;
+      top: 5px;
+      color: #333333;
+      cursor: pointer;
+    }
+  }
+
+  &-container {
+    .ant-table-tbody {
+      .ant-table-cell {
+        padding: unset !important;
+      }
+    }
+
+    &-list {
+      &-row {
+        padding: 16px;
+        padding-left: 10px;
+        &-plate {
+          color: #333333;
+          font-weight: 700;
+          cursor: pointer;
+          padding: 6px;
+        }
+      }
+    }
+  }
+}

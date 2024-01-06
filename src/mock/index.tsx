@@ -1,3 +1,4 @@
+import { AnyObject } from 'antd/es/_util/type';
 import Mock from 'mockjs';
 
 const domain = '/api/';
@@ -58,5 +59,31 @@ Mock.mock(domain + 'getHomeNewModuleData', function () {
     { title: '同人音声', listData: ['如果你的真的很大', '有女友,妻子的各位', '斑竹啥时候', '有没有大佬', '绝剑女校'] },
     { title: '提问求物', listData: ['如果你的真的很大', '有女友,妻子的各位', '斑竹啥时候', '有没有大佬', '绝剑女校'] },
   ];
+  return result;
+});
+
+//模拟获取各类table data接口
+Mock.mock(domain + 'getSourceTableData', function (params: AnyObject = {}) {
+  const {body = ""} = params;
+  const result: any = {};
+
+  switch(JSON.parse(body)?.type) {
+    case 'diffuse':
+      result.tableData = [
+        {key: '1', number: '22', plate: 'CG资源', latest: '活久见', path: '/cg'},
+        {key: '2', number: '33', plate: '同人音声', latest: '负债字长', path: '/music'},
+        {key: '3', number: '55', plate: '实用动画', latest: '也谈人', path: '/animation'},
+        {key: '4', number: '66', plate: '实用漫画', latest: '香蕉也不行了', path: '/comic'},
+        {key: '5', number: '77', plate: '游戏资源', latest: '天赐', path: '/game'},
+        {key: '6', number: '88', plate: 'COSPLAY', latest: '风你哦没人', path: '/cosplay'},
+      ]
+
+      result.dataIndex = [
+        'plate',
+        'number',
+        'latest',
+      ]
+  }
+
   return result;
 });

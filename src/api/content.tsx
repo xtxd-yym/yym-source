@@ -31,3 +31,13 @@ export const getHomeNewModuleData = (params: AnyObject = {}) => {
   })
   return  axios(axiosConfig);
 }
+
+//获取各类table数据
+export const getSourceTableData = (params: AnyObject = {}) => {
+  const axiosConfig = getAxiosConfig({
+      method: 'post',
+      url: '/api/getSourceTableData',
+      data: params,
+  })
+  return  axios(axiosConfig);
+}
