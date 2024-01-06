@@ -8,3 +8,7 @@ export const SourceHeaderPrefix = `source-header`;
 export const SourceContainerPrefix = `source-container`;
 //home本体
 export const SourceHomePrefix = `source-home`;
+//封装过的table组件
+export const SourceTablePrefix = `source-table`;
+//同人音声板块组件
+export const SourceMusicPrefix = `source-music`;
