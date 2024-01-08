@@ -41,3 +41,14 @@ export const getSourceTableData = (params: AnyObject = {}) => {
   })
   return  axios(axiosConfig);
 }
+
+//music
+//获取music主页展示数据
+export const getSourceMusicMainData = (params: AnyObject = {}) => {
+  const axiosConfig = getAxiosConfig({
+      method: 'get',
+      url: '/api/getSourceMusicMainData',
+      data: params,
+  })
+  return  axios(axiosConfig);
+}

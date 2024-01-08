@@ -87,3 +87,16 @@ Mock.mock(domain + 'getSourceTableData', function (params: AnyObject = {}) {
 
   return result;
 });
+
+// //模拟获取music主页展示数据
+// Mock.mock(domain + 'getSourceMusicMainData', function (params: AnyObject = {}) {
+//   const result: any = [
+//     [{id: '1'}, {id: '2'}, {id: '2.5'}, {id: '2.6'}],
+//     [{id: '3'}, {id: '4'}, {id: '2.5'}, {id: '2.6'}],
+//     [{id: '3'}, {id: '4'}, {id: '2.5'}, {id: '2.6'}],
+//     [{id: '3'}, {id: '4'}, {id: '2.5'}, {id: '2.6'}],
+//     [{id: '3'}, {id: '4'}, {id: '2.5'}, {id: '2.6'}],
+//   ];
+
+//   return result;
+// });
