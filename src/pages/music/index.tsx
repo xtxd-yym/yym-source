@@ -1,4 +1,6 @@
 import { lazy } from 'react';
-const Music = lazy(() => import('./content'));
 
-export default Music;
+export const Music = lazy(() => import('./content'));
+
+export const MusicPlay = lazy(() => import('./musicPlay'));
+

@@ -52,3 +52,13 @@ export const getSourceMusicMainData = (params: AnyObject = {}) => {
   })
   return  axios(axiosConfig);
 }
+
+//获取music播放页面数据
+export const getSourceMusicPlayData = (params: AnyObject = {}) => {
+  const axiosConfig = getAxiosConfig({
+      method: 'get',
+      url: '/api/getSourceMusicPlayData',
+      data: params,
+  })
+  return  axios(axiosConfig);
+}
