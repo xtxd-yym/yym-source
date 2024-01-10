@@ -12,3 +12,5 @@ export const SourceHomePrefix = `source-home`;
 export const SourceTablePrefix = `source-table`;
 //同人音声板块组件
 export const SourceMusicPrefix = `source-music`;
+//同人音声播放板块组件
+export const SourceMusicPlayPrefix = `source-musicPlay`;

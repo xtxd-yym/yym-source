@@ -1,7 +1,7 @@
 import './style/index.less';
 import { memo, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { Col, Row } from 'antd';
-import Notice from '@/components/source-notice';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { SourceMusicPrefix } from '@/constant/styles/index';
 import { getSourceMusicMainData } from '@/api/content';
 import SourceTable from '@/components/source-table';
@@ -20,6 +20,7 @@ interface TableDataType {
 
 const Music = memo(() => {
   const prefix = SourceMusicPrefix;
+  const navigate = useNavigate();
   const [tableData, setTableData] = useState<TableDataType[][]>([[]]);
 
   useEffect(() => {
@@ -55,15 +56,24 @@ const Music = memo(() => {
     setTableData(imgTableData);
   };
 
+  //音乐card 点击事件
+  const onMusicCardClick = useCallback((id: string) => {
+    return () => {
+      navigate(`/music/${id}`)
+    }
+  }, [])
+
   //音乐Card渲染方法
   const musicCardRender = useCallback((data: TableDataType) => {
     const { id = '', title = '', url = '' } = data || {};
     return (
       <div className={`${prefix}-container-card`}>
-        <div className={`${prefix}-container-card-img`}>
-          <img src={`http://localhost:3000${url}`}></img>
+        <div className={`${prefix}-container-card-content`} onClick={onMusicCardClick(id)}>
+          <div className={`${prefix}-container-card-content-img`}>
+            <img src={`${window.location?.origin}${url}`}></img>
+          </div>
+          <div className={`${prefix}-container-card-content-title`}>{title}</div>
         </div>
-        <div className={`${prefix}-container-card-title`}>{title}</div>
         <div className={`${prefix}-container-card-bottom`}></div>
       </div>
     );
